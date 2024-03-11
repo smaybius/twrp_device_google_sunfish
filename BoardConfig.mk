@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/google/sunfish
+DEVICE_PATH := device/android/generic
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
@@ -14,9 +14,9 @@ ALLOW_MISSING_DEPENDENCIES := true
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     system_ext \
-    vendor \
     product \
-    system
+    system \
+    vendor
 BOARD_USES_RECOVERY_AS_BOOT := true
 
 # Architecture
@@ -47,7 +47,7 @@ TARGET_SCREEN_DENSITY := 440
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 2
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.console=ttyMSM0 printk.devkmsg=on msm_rtb.filter=0x237 ehci-hcd.park=3 service_locator.enable=1 androidboot.memcg=1 cgroup.memory=nokmem lpm_levels.sleep_disabled=1 usbcore.autosuspend=7 loop.max_part=7 loop.hw_queue_depth=31 androidboot.usbcontroller=a600000.dwc3 swiotlb=1 androidboot.boot_devices=soc/1d84000.ufshc cgroup_disable=pressure buildvariant=user
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.console=ttyMSM0 printk.devkmsg=on msm_rtb.filter=0x237 ehci-hcd.park=3 service_locator.enable=1 androidboot.memcg=1 cgroup.memory=nokmem lpm_levels.sleep_disabled=1 usbcore.autosuspend=7 loop.max_part=7 loop.hw_queue_depth=31 androidboot.usbcontroller=a600000.dwc3 swiotlb=1 androidboot.boot_devices=soc/1d84000.ufshc cgroup_disable=pressure
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x01000000
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
@@ -56,11 +56,17 @@ BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
-TARGET_KERNEL_CONFIG := sunfish_defconfig
-TARGET_KERNEL_SOURCE := kernel/google/msm-4.14
+TARGET_KERNEL_CONFIG := generic_defconfig
+TARGET_KERNEL_SOURCE := kernel/android/generic
 
 # Kernel - prebuilt
-#TARGET_FORCE_PREBUILT_KERNEL := false
+TARGET_FORCE_PREBUILT_KERNEL := true
+ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
+BOARD_INCLUDE_DTB_IN_BOOTIMG := 
+endif
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -72,10 +78,9 @@ BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_SUPER_PARTITION_SIZE := 9126805504 # TODO: Fix hardcoded value
-BOARD_SUPER_PARTITION_GROUPS := google_dynamic_partitions
-BOARD_GOOGLE_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext vendor product
-BOARD_GOOGLE_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
-BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_SUPER_PARTITION_GROUPS := android_dynamic_partitions
+BOARD_ANDROID_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext vendor product
+BOARD_ANDROID_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
 
 # Platform
 TARGET_BOARD_PLATFORM := sm6150
@@ -97,22 +102,10 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
-# TWRP stuff
-TW_EXCLUDE_SUPERSU := true                    # true/false: Add SuperSU or not
-TW_INCLUDE_CRYPTO := true                     # true/false: Add Data Encryption Support or not
-TW_INPUT_BLACKLIST := "hbtp_vm"               # Optional: Disables virtual mouse
-TW_SCREEN_BLANK_ON_BOOT := false
-TW_THEME := portrait_hdpi                     # Set the exact theme you wanna use. If resulation doesn't match, define the height/width
-DEVICE_RESOLUTION := 1080x2340                # The Resolution of your Device
-TARGET_SCREEN_HEIGHT := 2340                  # The height
-TARGET_SCREEN_WIDTH := 1080                   # The width
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBA_8888"
-TW_MAX_BRIGHTNESS := 255
-TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
-
-TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
-TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
-TWRP_INCLUDE_LOGCAT := true                   # Include LogCat Binary
-TW_INCLUDE_FB2PNG := true                     # Include Screenshot Support
-TW_DEFAULT_LANGUAGE := en                     # Set Default Language 
-TW_EXTRA_LANGUAGES := false
+# TWRP Configuration
+TW_THEME := portrait_hdpi
+TW_EXTRA_LANGUAGES := true
+TW_SCREEN_BLANK_ON_BOOT := true
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_USE_TOOLBOX := true
+TW_INCLUDE_REPACKTOOLS := true

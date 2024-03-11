@@ -6,9 +6,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/twrp_sunfish.mk
+    $(LOCAL_DIR)/omni_generic.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_sunfish-user \
-    twrp_sunfish-userdebug \
-    twrp_sunfish-eng
+    omni_generic-user \
+    omni_generic-userdebug \
+    omni_generic-eng

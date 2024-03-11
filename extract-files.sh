@@ -8,8 +8,8 @@
 
 set -e
 
-DEVICE=sunfish
-VENDOR=google
+DEVICE=generic
+VENDOR=android
 
 # Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"

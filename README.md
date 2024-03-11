@@ -1,4 +1,4 @@
-# Android device tree for google mainline (sunfish)
+# Android device tree for Android mainline (generic)
 
 ```
 #

@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-LOCAL_PATH := device/google/sunfish
+LOCAL_PATH := device/android/generic
 # A/B
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -21,7 +21,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     bootctrl.sm6150
 
-PRODUCT_PACKAGES := \
+PRODUCT_STATIC_BOOT_CONTROL_HAL := \
     bootctrl.sm6150 \
     libgptutils \
     libz \
