@@ -75,6 +75,7 @@ BOARD_SUPER_PARTITION_SIZE := 9126805504 # TODO: Fix hardcoded value
 BOARD_SUPER_PARTITION_GROUPS := google_dynamic_partitions
 BOARD_GOOGLE_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext vendor product
 BOARD_GOOGLE_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
+BOARD_CHARGER_SHOW_PERCENTAGE := true
 
 # Platform
 TARGET_BOARD_PLATFORM := sm6150
@@ -96,22 +97,22 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
-# TWRP Configuration
-TW_THEME := portrait_hdpi
-# Use mke2fs to create ext4 images
-TARGET_USES_MKE2FS := true
+# TWRP stuff
+TW_EXCLUDE_SUPERSU := true                    # true/false: Add SuperSU or not
+TW_INCLUDE_CRYPTO := true                     # true/false: Add Data Encryption Support or not
+TW_INPUT_BLACKLIST := "hbtp_vm"               # Optional: Disables virtual mouse
+TW_SCREEN_BLANK_ON_BOOT := false
+TW_THEME := portrait_hdpi                     # Set the exact theme you wanna use. If resulation doesn't match, define the height/width
+DEVICE_RESOLUTION := 1080x2340                # The Resolution of your Device
+TARGET_SCREEN_HEIGHT := 2340                  # The height
+TARGET_SCREEN_WIDTH := 1080                   # The width
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBA_8888"
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
 
-# dynamic partition
-BOARD_SUPER_PARTITION_SIZE := 9755951104
-BOARD_SUPER_PARTITION_GROUPS := google_dynamic_partitions
-BOARD_GOOGLE_DYNAMIC_PARTITIONS_PARTITION_LIST := \
-    system \
-    vendor \
-    product \
-    system_ext
-
-#BOARD_GOOGLE_DYNAMIC_PARTITIONS_SIZE is set to BOARD_SUPER_PARTITION_SIZE / 2 - 4MB
-BOARD_GOOGLE_DYNAMIC_PARTITIONS_SIZE := 4873781248
-
-# Set error limit to BOARD_SUPER_PARTITON_SIZE - 500MB
-BOARD_SUPER_PARTITION_ERROR_LIMIT := 9231663104
+TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
+TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
+TWRP_INCLUDE_LOGCAT := true                   # Include LogCat Binary
+TW_INCLUDE_FB2PNG := true                     # Include Screenshot Support
+TW_DEFAULT_LANGUAGE := en                     # Set Default Language 
+TW_EXTRA_LANGUAGES := false
