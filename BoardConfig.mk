@@ -103,22 +103,30 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
-# TWRP stuff
-TW_EXCLUDE_SUPERSU := true                    # true/false: Add SuperSU or not
-TW_INCLUDE_CRYPTO := true                     # true/false: Add Data Encryption Support or not
-TW_INPUT_BLACKLIST := "hbtp_vm"               # Optional: Disables virtual mouse
-TW_SCREEN_BLANK_ON_BOOT := false
-TW_THEME := portrait_hdpi                     # Set the exact theme you wanna use. If resulation doesn't match, define the height/width
-DEVICE_RESOLUTION := 1080x2340                # The Resolution of your Device
-TARGET_SCREEN_HEIGHT := 2340                  # The height
-TARGET_SCREEN_WIDTH := 1080                   # The width
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBA_8888"
-TW_MAX_BRIGHTNESS := 255
-TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
+# TWRP Standard Flags
+TW_THEME := portrait_hdpi
+BOARD_SUPPRESS_SECURE_ERASE := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+TW_DEFAULT_BRIGHTNESS := "80"
+TW_INCLUDE_CRYPTO := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_INCLUDE_NTFS_3G := true
+TW_INCLUDE_REPACKTOOLS := true
+TW_INCLUDE_RESETPROP := true
+PLATFORM_VERSION := 99.87.36
+PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
+PLATFORM_SECURITY_PATCH := 2099-12-31
+LZMA_RAMDISK_TARGETS := recovery,boot
+TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko apr_dlkm.ko atomic64_test.ko bolero_cdc_dlkm.ko br_netfilter.ko gspca_main.ko hdmi_dlkm.ko lcd.ko lkdtm.ko llcc_perfmon.ko machine_dlkm.ko mbhc_dlkm.ko mmc_test.ko mpq-adapter.ko mpq-dmx-hw-plugin.ko msm_11ad_proxy.ko msm-geni-ir.ko native_dlkm.ko pinctrl_lpi_dlkm.ko pinctrl_wcd_dlkm.ko platform_dlkm.ko q6_dlkm.ko q6_notifier_dlkm.ko q6_pdr_dlkm.ko rdbg.ko rx_macro_dlkm.ko snd_event_dlkm.ko stub_dlkm.ko swr_ctrl_dlkm.ko swr_dlkm.ko test_user_copy.ko torture.ko tx_macro_dlkm.ko usf_dlkm.ko va_macro_dlkm.ko wcd934x_dlkm.ko wcd937x_dlkm.ko wcd937x_slave_dlkm.ko wcd9xxx_dlkm.ko wcd_core_dlkm.ko wcd_spi_dlkm.ko wglink_dlkm.ko wil6210.ko wlan.ko wsa881x_dlkm.ko wsa_macro_dlkm.ko heatmap.ko ftm5.ko drv2624.ko"
+TW_USE_FSCRYPT_POLICY := 1
 
-TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
-TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
-TWRP_INCLUDE_LOGCAT := true                   # Include LogCat Binary
-TW_INCLUDE_FB2PNG := true                     # Include Screenshot Support
-TW_DEFAULT_LANGUAGE := en                     # Set Default Language 
-TW_EXTRA_LANGUAGES := false
+# TWRP Debug Flags
+#TWRP_EVENT_LOGGING := true
+TARGET_USES_LOGD := true
+TWRP_INCLUDE_LOGCAT := true
+TARGET_RECOVERY_DEVICE_MODULES += debuggerd
+RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
+TARGET_RECOVERY_DEVICE_MODULES += strace
+RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
+#TARGET_RECOVERY_DEVICE_MODULES += twrpdec
+#TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/twrpdec
